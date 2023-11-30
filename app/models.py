@@ -5,8 +5,7 @@ from numpy.linalg import norm
 from llama_cpp import Llama
 from langchain.embeddings import LlamaCppEmbeddings
 
-
-# Dowloading GGML model from HuggingFace
+# parameters 
 ggml_model_path = "https://huggingface.co/TheBloke/Mistral-7B-v0.1-GGUF/resolve/main/mistral-7b-v0.1.Q4_K_M.gguf"
 filename = "mistral-7b-v0.1.Q4_K_M.gguf"
 llm = Llama(model_path=filename, n_ctx=512, n_batch=126)
@@ -54,7 +53,9 @@ def generate_prompt_from_template(input):
     return chat_prompt_template
 
 
-
+def get_top_suggestions(input):
+    
+    return top_suggestions
 
 # download_file(ggml_model_path, filename)
 
