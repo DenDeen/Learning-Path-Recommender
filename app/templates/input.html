@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Input Page{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card my-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Tell us what you want to learn!</h2>
+                        <p class="card-text">
+                            Provide some information about your interests, and we'll recommend a learning path tailored just for you.
+                        </p>
+                        <form method="post" action="{{ url_for('input_text') }}">
+                            <div class="form-group">
+                                <label for="input_text">Enter your learning preferences:</label>
+                                <textarea class="form-control" id="input_text" name="input_text" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Get Recommendations</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mt-4">
+                    <h3>Example Inputs:</h3>
+                    <button type="button" class="btn btn-light example-input" data-input="I want to learn web development with a focus on front-end technologies.">
+                        Web Development
+                    </button>
+                    <button type="button" class="btn btn-light example-input" data-input="Interested in mastering Python for data science and machine learning.">
+                        Python & Data Science
+                    </button>
+                    <!-- Add more example inputs as buttons as needed -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Handle example input clicks
+        document.querySelectorAll('.example-input').forEach(function (example) {
+            example.addEventListener('click', function () {
+                document.getElementById('input_text').value = example.getAttribute('data-input');
+            });
+        });
+    </script>
+{% endblock %}

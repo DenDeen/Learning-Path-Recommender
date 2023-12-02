@@ -6,13 +6,13 @@ from llama_cpp import Llama
 from langchain.embeddings import LlamaCppEmbeddings
 
 # parameters 
-ggml_model_path = "https://huggingface.co/TheBloke/Mistral-7B-v0.1-GGUF/resolve/main/mistral-7b-v0.1.Q4_K_M.gguf"
-filename = "mistral-7b-v0.1.Q4_K_M.gguf"
-llm = Llama(model_path=filename, n_ctx=512, n_batch=126)
-llama = LlamaCppEmbeddings(model_path=filename)
-text = "This is a test."
-query_result = llama.embed_query(text)
-doc_result = llama.embed_documents(["This is a test.", "This is test number two.", "this not a test."])
+# ggml_model_path = "https://huggingface.co/TheBloke/Mistral-7B-v0.1-GGUF/resolve/main/mistral-7b-v0.1.Q4_K_M.gguf"
+# filename = "mistral-7b-v0.1.Q4_K_M.gguf"
+# llm = Llama(model_path=filename, n_ctx=512, n_batch=126)
+# llama = LlamaCppEmbeddings(model_path=filename)
+# text = "This is a test."
+# query_result = llama.embed_query(text)
+# doc_result = llama.embed_documents(["This is a test.", "This is test number two.", "this not a test."])
 
 def download_file(file_link, filename):
     # Checks if the file already exists before downloading

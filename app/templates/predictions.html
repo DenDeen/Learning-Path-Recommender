@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Predictions Page{% endblock %}
+
+{% block content %}
+    <!-- Display predictions -->
+    <form method="post" action="{{ url_for('view_predictions') }}">
+        <!-- Allow user tweaks -->
+        <button type="submit" class="btn btn-success">View Output</button>
+    </form>
+{% endblock %}
