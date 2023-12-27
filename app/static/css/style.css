@@ -1,12 +1,204 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
-}
-
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+.homepage {
+    position: relative;
+    width: 872px;
+    height: 556px;
+    background-color: #ffffff;
+  }
+  
+  .homepage .overlap {
+    top: 88px;
+    left: 48px;
+    position: absolute;
+    width: 776px;
+    height: 266px;
+  }
+  
+  .homepage .overlap-group {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 776px;
+    height: 266px;
+  }
+  
+  .homepage .text-wrapper {
+    position: absolute;
+    width: 526px;
+    top: 0;
+    left: 142px;
+    font-family: "JejuMyeongjo-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 40px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .homepage .rectangle {
+    left: 0;
+    position: absolute;
+    width: 216px;
+    height: 178px;
+    top: 88px;
+    background-color: #d9d9d9;
+  }
+  
+  .homepage .div {
+    left: 560px;
+    position: absolute;
+    width: 216px;
+    height: 178px;
+    top: 88px;
+    background-color: #d9d9d9;
+  }
+  
+  .homepage .rectangle-2 {
+    left: 280px;
+    position: absolute;
+    width: 216px;
+    height: 178px;
+    top: 88px;
+    background-color: #d9d9d9;
+  }
+  
+  .homepage .p {
+    position: absolute;
+    width: 140px;
+    top: 110px;
+    left: 34px;
+    font-family: "Inria Sans-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .homepage .text-wrapper-2 {
+    position: absolute;
+    width: 142px;
+    top: 110px;
+    left: 318px;
+    font-family: "Inria Sans-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .homepage .text-wrapper-3 {
+    position: absolute;
+    width: 190px;
+    top: 118px;
+    left: 578px;
+    font-family: "Inria Sans-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .homepage .arrow {
+    left: 220px;
+    position: absolute;
+    width: 56px;
+    height: 23px;
+    top: 164px;
+  }
+  
+  .homepage .img {
+    left: 500px;
+    position: absolute;
+    width: 56px;
+    height: 23px;
+    top: 164px;
+  }
+  
+  .homepage .start-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 12px 8px;
+    position: absolute;
+    top: 414px;
+    left: 362px;
+    background-color: #134e9287;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 8px 8px #00000040;
+    all: unset;
+    box-sizing: border-box;
+  }
+  
+  .homepage .text-wrapper-4 {
+    position: relative;
+    width: fit-content;
+    margin-top: -2px;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .homepage .path-button {
+    display: flex;
+    width: 152px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 12px 8px;
+    position: absolute;
+    top: 18px;
+    left: 704px;
+    background-color: #134e9287;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .homepage .text-wrapper-5 {
+    position: relative;
+    width: fit-content;
+    margin-top: -7.5px;
+    margin-bottom: -3.5px;
+    margin-left: -1.5px;
+    margin-right: -1.5px;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .homepage .text-wrapper-6 {
+    width: 70px;
+    left: 610px;
+    position: absolute;
+    top: 22px;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .homepage .text-wrapper-7 {
+    width: 55px;
+    left: 533px;
+    position: absolute;
+    top: 22px;
+    font-family: "Inter-SemiBold", Helvetica;
+    font-weight: 600;
+    color: #000000;
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
