@@ -95,16 +95,19 @@
     </div>
 </div>
 
-    <!-- Chatbot interface panel -->
+
+<!-- Chatbot interface panel -->
 <div class="chat-pane" id="chatPane">
     <div class="chat-header">
         <strong>Chat with our Assistant</strong>
         <button onclick="closeChat()">×</button>
     </div>
-    <div class="chat-content">
-        <!-- Chat content goes here -->
-        <p>Chat about <span id="courseName">Course Name</span></p>
-        <!-- ... -->
+    <div id="chatContent" class="chat-content">
+        <!-- Chat content will be dynamically added here -->
+    </div>
+    <div class="chat-input">
+        <input type="text" id="chatMessage" placeholder="Ask me something..." />
+        <button onclick="sendMessage()">Send</button>
     </div>
 </div>
 
@@ -118,6 +121,35 @@
     function closeChat() {
         document.querySelector('.container-pane').classList.remove('show-chat');
         document.querySelector('.chat-pane').classList.remove('show-chat-pane');
+    }
+
+    function sendMessage() {
+        var message = document.getElementById('chatMessage').value;
+        document.getElementById('chatMessage').value = ''; // Clear the input
+        displayMessage(message, 'You'); // Display the user's message
+
+        fetch('/chat', {
+            method: 'POST',
+            body: JSON.stringify({ "message": message }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            displayMessage(data.reply, 'Assistant'); // Display the assistant's reply
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+    function displayMessage(text, sender) {
+        var chatContent = document.getElementById('chatContent');
+        var messageDiv = document.createElement('div');
+        messageDiv.textContent = `${sender}: ${text}`;
+        chatContent.appendChild(messageDiv);
+        chatContent.scrollTop = chatContent.scrollHeight; // Scroll to the bottom
     }
 </script>
 
