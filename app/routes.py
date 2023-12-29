@@ -20,11 +20,18 @@ def input_text():
 
 @app.route("/predictions", methods=["GET", "POST"])
 def view_predictions():
+    courses = [
+        {"name": "Course 1", "description": "Description for Course 1", "confidence": 95},
+        {"name": "Course 2", "description": "Description for Course 2", "confidence": 90},
+        {"name": "Course 3", "description": "Description for Course 3", "confidence": 85},
+        {"name": "Course 4", "description": "Description for Course 4", "confidence": 80},
+        {"name": "Course 5", "description": "Description for Course 5", "confidence": 75}
+    ]
+
     if request.method == "POST":
-        # Get user tweaks and reprocess if needed
-        # Update the processed data in the session variable
-        return render_template("predictions.html")
-    return render_template("predictions.html")
+        return render_template("predictions.html", courses=courses)
+
+    return render_template("predictions.html", courses=courses)
 
 
 @app.route("/output")

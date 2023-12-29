@@ -2,8 +2,8 @@ import os
 import urllib.request
 import numpy as np
 from numpy.linalg import norm
-from llama_cpp import Llama
-from langchain.embeddings import LlamaCppEmbeddings
+# from llama_cpp import Llama
+# from langchain.embeddings import LlamaCppEmbeddings
 
 # parameters 
 # ggml_model_path = "https://huggingface.co/TheBloke/Mistral-7B-v0.1-GGUF/resolve/main/mistral-7b-v0.1.Q4_K_M.gguf"

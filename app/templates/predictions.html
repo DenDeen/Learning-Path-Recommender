@@ -1,11 +1,124 @@
 {% extends 'base.html' %}
 
-{% block title %}Predictions Page{% endblock %}
+{% block title %}Course Recommendations{% endblock %}
 
 {% block content %}
-    <!-- Display predictions -->
-    <form method="post" action="{{ url_for('view_predictions') }}">
-        <!-- Allow user tweaks -->
-        <button type="submit" class="btn btn-success">View Output</button>
-    </form>
+<style>
+    .content-background {
+        background: url('{{ url_for('static', filename='images/undraw_trip_dv9f.svg') }}') no-repeat center center;
+        background-size: 85%; /* Adjust the percentage to make the image smaller */
+    }
+    .content-container {
+        min-height: calc(100vh - 3rem);; /* Full height */
+        display: flex;
+        flex-direction: column;
+    }
+    .card-header {
+        background-color: #f0f0f0;
+        font-weight: bold;
+    }
+    .card {
+        border: none;
+        transition: transform 0.3s;
+    }
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .confidence-rating {
+        font-size: 0.9em;
+        color: #28a745; /* Bootstrap success color */
+    }
+
+    .container-pane, .chat-pane{
+        transition: transform 0.5s ease-in-out; /* Slower transition */
+    }
+    .container-pane {
+        transform: translateX(0);
+    }
+    .chat-pane {
+        width: 40%; /* Half screen width */
+        position: fixed;
+        top: 0;
+        right: -40%; /* Adjusted to match new width */
+        height: 100vh;
+        background-color: #ffffff;
+        overflow-y: auto;
+        z-index: 1030; /* Slightly less than the navbar z-index */
+    }
+    .chat-header {
+        background-color: #007bff; /* Bootstrap primary color for header */
+        color: #ffffff; /* White text color */
+        padding: 0.5rem 1rem; /* Padding for header content */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .chat-header button {
+        background: none;
+        border: none;
+        color: #ffffff;
+        font-size: 1.5rem;
+    }
+    .show-chat {
+        transform: translateX(-40%); /* Adjusted to match new width */
+        transition: transform 0.5s ease-in-out;
+    }
+    .show-chat-pane {
+        transform: translateX(-80%); /* Adjusted to match new width */
+        transition: transform 0.5s ease-in-out;
+    }
+    /* Ensure the navbar has a higher z-index */
+    .navbar {
+        z-index: 1040; /* This should be higher than the chat pane */
+    }
+</style>
+
+<!-- Main content container -->
+<div class="container mt-5 content-background content-container container-pane">
+    <h1 class="text-center mb-5 display-4">Top Course Recommendations</h1>
+
+    <div class="row justify-content-center">
+        {% for course in courses %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow" onclick="openChat('{{ course.name }}')">
+                <div class="card-header">{{ course.name }}</div>
+                <div class="card-body">
+                    <p class="card-text">{{ course.description }}</p>
+                </div>
+                <div class="card-footer bg-white">
+                    <span class="confidence-rating">Confidence: {{ course.confidence }}%</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+    <!-- Chatbot interface panel -->
+<div class="chat-pane" id="chatPane">
+    <div class="chat-header">
+        <strong>Chat with our Assistant</strong>
+        <button onclick="closeChat()">×</button>
+    </div>
+    <div class="chat-content">
+        <!-- Chat content goes here -->
+        <p>Chat about <span id="courseName">Course Name</span></p>
+        <!-- ... -->
+    </div>
+</div>
+
+<script>
+    function openChat(courseName) {
+        document.querySelector('.container-pane').classList.add('show-chat');
+        document.querySelector('.chat-pane').classList.add('show-chat-pane');
+        document.getElementById('courseName').innerText = courseName; // If you want to display the course name in the chat pane
+    }
+
+    function closeChat() {
+        document.querySelector('.container-pane').classList.remove('show-chat');
+        document.querySelector('.chat-pane').classList.remove('show-chat-pane');
+    }
+</script>
+
 {% endblock %}
