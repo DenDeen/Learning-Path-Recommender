@@ -17,15 +17,32 @@ def input_text():
     return render_template("input.html")
 
 
+# @app.route("/chat", methods=["POST"])
+# def chat():
+    # user_message = request.json.get("message")
+    # response = chat_engine.stream_chat(user_message)
+    # buffer = []
+    # buffer_size = 3
+    #
+    # def generate():
+    #     for token in response.response_gen:
+    #         buffer.append(token)
+    #         if len(buffer) >= buffer_size:
+    #             yield "".join(buffer)
+    #             buffer.clear()
+    #     if buffer:
+    #         yield "".join(buffer)
+    #
+    # return Response(stream_with_context(generate()), content_type="text/plain")
+
 @app.route("/chat", methods=["POST"])
 def chat():
     user_message = request.json.get("message")
-    response = chat_engine.stream_chat(user_message)
     buffer = []
     buffer_size = 3
 
     def generate():
-        for token in response.response_gen:
+        for token in user_message:
             buffer.append(token)
             if len(buffer) >= buffer_size:
                 yield "".join(buffer)
