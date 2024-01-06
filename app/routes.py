@@ -63,12 +63,14 @@ def account_page():
 @app.route("/chat", methods=["POST"])
 def chat():
     user_message = request.json.get("message")
+    streamer = model_utils.get_streamer(user_message, context="")
+
     buffer = []
     buffer_size = 3
 
     def generate():
-        for token in user_message:
-            buffer.append(token)
+        for token in streamer:
+            buffer.append(token["choices"][0]["text"].strip())
             if len(buffer) >= buffer_size:
                 yield "".join(buffer)
                 buffer.clear()
