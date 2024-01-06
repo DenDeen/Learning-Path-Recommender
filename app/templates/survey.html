@@ -15,20 +15,13 @@
             margin: 0;
         }
     
-        .button-container {
-            text-align: center;
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-    
         .btn-container {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            gap: 10px;
+            justify-content: center; /* Center the buttons horizontally */
+            gap: 20px;
+            margin-bottom: 30px;
         }
     
         .btn {
@@ -65,13 +58,9 @@
             </div>
         </div>
     </div>
-    <div class="button-container">
-        <div class="col-lg-6 text-center">
-            <div class="btn-container">
-                <a class="btn btn-primary btn-lg" href="{{ url_for('download_file') }}" role="button">Download the information letter</a>
-                <a href="https://qualtricsxmt535fjbxw.qualtrics.com/jfe/form/SV_09Fe4t3lV4ipcHA" target="_blank" class="btn btn-primary btn-lg">Take the Survey</a>
-            </div>
-        </div>
+    <div class="btn-container">
+        <a class="btn btn-primary btn-lg" href="{{ url_for('download_file') }}" role="button">Download the information letter</a>
+        <a href="https://qualtricsxmt535fjbxw.qualtrics.com/jfe/form/SV_09Fe4t3lV4ipcHA" target="_blank" class="btn btn-primary btn-lg">Take the Survey</a>
     </div>   
 </div>
     
