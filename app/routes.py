@@ -1,4 +1,4 @@
-from flask import render_template, request, stream_with_context, Response
+from flask import render_template, request, stream_with_context, Response, send_file
 from app import app
 from app.utils import models as model_utils
 
@@ -60,6 +60,24 @@ def output_page():
     return render_template("predictions.html", courses=courses)
 
 
+@app.route("/output")
+def output():
+    # Get processed data from the session variable
+    # You can now display the output and integrate chat functionality
+    return render_template("output.html")
+
+@app.route("/survey")
+def survey():
+    # Get processed data from the session variable
+    # You can now display the output and integrate chat functionality
+    return render_template("survey.html")
+
+@app.route('/download')
+def download_file():
+    # Path to the file you want to serve
+    file_path = 'static/resources/informatiebrief.pdf'
+    return send_file(file_path, as_attachment=True)
+
 @app.route("/account_page")
 def account_page():
     return render_template("account.html")
@@ -101,3 +119,4 @@ def chat():
 #         yield "".join(buffer)
 #
 # return Response(stream_with_context(generate()), content_type="text/plain")
+
