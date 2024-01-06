@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .centered-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%; /* Use full width to ensure centering */
+        text-align: center;
+    }
+
+    .loading-section {
+        margin: 0 auto; /* Centering the section */
+        height: 5rem; /* Fixed height to accommodate progress bar and button */
+    }
+
+    .progress {
+        width: 40%; /* Width of the progress bar and button */
+        height: 2rem; /* Makes the progress bar thicker */
+        margin: 0 auto; /* Centers the progress bar */
+    }
+
+    .btn-results {
+        font-size: 1.5rem; /* Larger text for the button */
+        padding: 0.75rem 1.5rem; /* Bigger button */
+        border-radius: 2rem; /* Rounded borders for the button */
+        margin: 2rem auto; /* Centers the progress bar */
+        display: none; /* Initially hide the button */
+    }
+</style>
+
+<div class="centered-container">
+    <h3>Preparing your personalized course recommendations...</h3>
+    <div class="loading-section">
+        <div class="progress my-4">
+            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                 role="progressbar"
+                 aria-valuenow="0"
+                 aria-valuemin="0"
+                 aria-valuemax="100"
+                 id="progressBar">
+            </div>
+        </div>
+        <button id="resultsButton" class="btn btn-success btn-lg btn-results hidden" onclick="window.location.href = '{{ url_for('output_page') }}';">
+            Go to Results Page
+        </button>
+    </div>
+</div>
+
+<script>
+    const progressBar = document.getElementById('progressBar');
+    const resultsButton = document.getElementById('resultsButton');
+    let width = 0;
+
+    // Update the progress bar every 100 milliseconds
+    const interval = setInterval(() => {
+        width += 2; // Increment the width by 1%
+        progressBar.style.width = width + '%';
+        progressBar.setAttribute('aria-valuenow', width);
+
+        if (width >= 100) {
+            clearInterval(interval); // Stop the interval when it reaches 100%
+            progressBar.classList.remove('progress-bar-striped', 'progress-bar-animated', 'bg-info');
+            progressBar.classList.add('bg-success'); // Change color to green
+            resultsButton.style.display = 'block'; // Reveal the button
+        }
+    }, 100); // 10 seconds = 10000 milliseconds, so 10000ms / 100 = 100ms intervals
+</script>
+{% endblock %}
