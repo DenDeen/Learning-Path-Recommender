@@ -108,6 +108,7 @@
     .navbar {
         z-index: 1040; /* This should be higher than the chat pane */
     }
+    
 </style>
 
 <!-- Main content container -->
@@ -131,17 +132,24 @@
     <div class="row justify-content-center">
         {% for course in courses %}
         <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card card-hover h-100 shadow" onclick="openChat('{{ course.name }}')">
-                <div class="card-header">{{ course.name }}</div>
+            <div class="card card-hover h-100 shadow" onclick="openChat('{{ course.title }}')">
+                <div class="card-header">{{ course.title }}</div>
                 <div class="card-body ">
                     <p class="card-text">{{ course.description }}</p>
                 </div>
                 <div class="card-footer bg-white">
-                    <span class="confidence-rating">Confidence: {{ course.confidence }}%</span>
+                    <span class="confidence-rating">Confidence: {{ course.similarity * 100 }}%</span>
                 </div>
             </div>
         </div>
         {% endfor %}
+    </div>
+    <!-- Button for the survey -->
+    <!-- Centered and larger button for the survey -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-6 text-center mb-4">
+            <a class="btn btn-primary btn-lg" href="{{ url_for('survey') }}" role="button">Take the Survey</a>
+        </div>
     </div>
 </div>
 
@@ -149,7 +157,9 @@
 <!-- Chatbot interface panel -->
 <div class="chat-pane card" id="chatPane">
     <div class="chat-header card-header">
-        Chat with your Assistant
+        <div id="chatCourseName">
+            Chat with your Assistant
+        </div>
         <button onclick="closeChat()">×</button>
     </div>
     <div class="chat-container card-body chat-background">
@@ -163,13 +173,13 @@
             </button>
         </div>
     </div>
-</div>
+</h3>
 
 <script>
     function openChat(courseName) {
         document.querySelector('.container-pane').classList.add('show-chat');
         document.querySelector('.chat-pane').classList.add('show-chat-pane');
-        document.getElementById('courseName').innerText = courseName; // If you want to display the course name in the chat pane
+        document.getElementById('chatCourseName').innerText = "Chat about " + courseName; // If you want to display the course name in the chat pane
     }
 
     function closeChat() {

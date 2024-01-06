@@ -41,7 +41,7 @@
         .toggle {
             position: relative;
             display: inline-block;
-            margin-top: 0.5rem;
+            margin-bottom: 1rem;
             width: 50px;
             height: 26px;
             background-color: hsl(0, 0%, 85%);
@@ -89,11 +89,17 @@
                 </li>
             </ul>
             <ul id="bottom-links" class="navbar-nav">
+                <li class="nav-item d-flex justify-content-center align-items-center">
+                    <div>
+                        <a class="nav-link text-center">Toggle AI Chatbot</a>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <input id="cb-toggle" type="checkbox" class="hide-me" aria-labelledby="cb-label">
+                            <label for="cb-toggle" class="toggle"></label>
+                        </div>
+                    </div>
+                </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('output_page') }}">Toggle AI Chatbot</a>
-                    <input id="cb-toggle" type="checkbox" class="hide-me" aria-labelledby="cb-label">
-                    <label for="cb-toggle" class="toggle"></label>
-                    <a class="nav-link" href="{{ url_for('account_page') }}">Your Account</a>
+                    <a class="nav-link text-center" href="{{ url_for('account_page') }}">Your Account</a>
                 </li>
             </ul>
         </nav>
