@@ -4,9 +4,6 @@ from app.utils import models as model_utils
 from app.utils import matching as matching_utils
 
 
-courses = []
-
-
 @app.route("/")
 def index_page():
     return render_template("index.html")
@@ -22,9 +19,15 @@ def loading_page():
     # Get input from the user
     user_input = request.form.get("input_text")
 
+    # Improve the user_input
+    processed_output = model_utils.generate_skill_extraction_prompt(user_input)
+    processed_output = model_utils.get_llm_generation(processed_output)
+    processed_output = model_utils.process_skill_extraction_prompt(processed_output, user_input)
+    print(processed_output)
+
     # Embed the input and find the best matches
-    embedded_input = matching_utils.embed_specific_query(user_input)
-    best_matches = matching_utils.find_best_matches(embedded_input)
+    embedded_output = matching_utils.embed_specific_query(processed_output)
+    best_matches = matching_utils.find_best_matches(embedded_output)
 
     # Convert the best matches to JSON objects
     session['courses'] = matching_utils.convert_df_to_json(best_matches)
@@ -62,19 +65,29 @@ def account_page():
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    user_message = request.json.get("message")
-    streamer = model_utils.get_streamer(user_message, context="")
+    user_input = request.json.get("message")
+    processed_input = model_utils.generate_chat_prompt(user_input)
+    llm_output = model_utils.get_llm_generation(processed_input)
 
-    buffer = []
-    buffer_size = 3
+    return Response(llm_output)
 
-    def generate():
-        for token in streamer:
-            buffer.append(token["choices"][0]["text"].strip())
-            if len(buffer) >= buffer_size:
-                yield "".join(buffer)
-                buffer.clear()
-        if buffer:
-            yield "".join(buffer)
 
-    return Response(stream_with_context(generate()), content_type="text/plain")
+# @app.route("/chat", methods=["POST"])
+# def chat():
+#     user_input = request.json.get("message")
+#     processed_input = model_utils.generate_chat_prompt(user_input)
+#     streamer = model_utils.get_llm_generator(processed_input)
+#
+#     buffer = []
+#     buffer_size = 3
+#
+#     def generate():
+#         for word in streamer:
+#             buffer.append(word["choices"][0]["text"].strip())
+#             if len(buffer) >= buffer_size:
+#                 yield " ".join(buffer)
+#                 buffer.clear()
+#         if buffer:
+#             yield " ".join(buffer)
+#
+#     return Response(stream_with_context(generate()))
