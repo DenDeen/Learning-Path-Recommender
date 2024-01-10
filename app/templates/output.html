@@ -138,7 +138,7 @@
                     <p class="card-text">{{ course.description }}</p>
                 </div>
                 <div class="card-footer bg-white">
-                    <span class="confidence-rating">Confidence: {{ course.similarity * 100 }}%</span>
+                    <span class="confidence-rating">Confidence: {{ "%.2f"|format(course.similarity * 100) }}%</span>
                 </div>
             </div>
         </div>
