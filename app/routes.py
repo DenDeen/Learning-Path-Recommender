@@ -31,6 +31,7 @@ def loading_page():
 
     # Convert the best matches to JSON objects
     session['courses'] = matching_utils.convert_df_to_json(best_matches)
+    session['user_input'] = user_input
     return render_template("loading.html")
 
 
@@ -38,7 +39,8 @@ def loading_page():
 def output_page():
     # Get the predicted courses from the session
     predicted_courses = session.get('courses', [])
-    return render_template("output.html", courses=predicted_courses)
+    user_input = session.get('user_input', [])
+    return render_template("output.html", courses=predicted_courses, user_input=user_input)
 
 
 @app.route("/output")
