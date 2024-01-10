@@ -2,11 +2,6 @@ import os
 import urllib.request
 from llama_cpp import Llama
 
-ggml_model_path = "https://huggingface.co/TheBloke/Mistral-7B-v0.1-GGUF/resolve/main/mistral-7b-v0.1.Q4_K_M.gguf"
-filename = "input/mistral-7b-v0.1.Q4_K_M.gguf"
-
-llm = Llama(model_path=filename, n_ctx=512, n_batch=126)
-
 
 def download_file(file_link, filename):
     # Checks if the file already exists before downloading
@@ -17,8 +12,14 @@ def download_file(file_link, filename):
         print("File already exists.")
 
 
+def get_model(model_path, filename):
+    download_file(model_path, filename)
+    return Llama(model_path=filename, n_ctx=512, n_batch=126)
+
+
 def get_llm_generator(
     prompt,
+    llm,
     max_tokens=512,
     temperature=0,
     top_p=0.9,
@@ -39,6 +40,7 @@ def get_llm_generator(
 
 def get_llm_generation(
     prompt,
+    llm,
     max_tokens=512,
     temperature=0,
     top_p=0.9,
@@ -56,20 +58,27 @@ def get_llm_generation(
     return text_generation["choices"][0]["text"].strip()
 
 
-def generate_chat_prompt(input):
-    system = "You are a helpful bot that answers any questions the user may have. Only answer in short clear sentences."
-    chat_prompt_template = f"<s>[INST] {system} [/INST]</s>{input}"
+def generate_chat_prompt(prompt, size="large"):
+    system = ("You are a helpful bot that answers any questions the user may have. Only answer in short clear "
+              "sentences.")
+    if size == "large":
+        chat_prompt_template = f"<s>[INST] {system} [/INST]</s>{prompt}"
+    else:
+        chat_prompt_template = f"""### Assistant: {system}\n\n### Human: {prompt}\n\n### Assistant:"""
     return chat_prompt_template
 
 
-def generate_skill_extraction_prompt(input):
-    system = "You are a helpful bot that extracts a couple of skills the user will learn after learning what the user wants to learn. Only answer in a list of comma separated words in between curly brackets."
-    chat_prompt_template = f"<s>[INST] {system} [/INST]</s>{input}"
+def generate_skill_extraction_prompt(prompt, size="large"):
+    system = ("You are a helpful bot that extracts skills that the user will learn after the given learnings. Only answer in a list of comma separated words in between curly brackets {}.")
+    if size == "large":
+        chat_prompt_template = f"<s>[INST] {system} [/INST]</s>{prompt}"
+    else:
+        chat_prompt_template = f"### Assistant: {system}\n\n### Human: {prompt}\n\n### Assistant:"
     return chat_prompt_template
 
 
 def process_skill_extraction_prompt(input, prompt):
     if "{" in input and "}" in input:
-        return input[input.find("{")+1:input.find("}")]
+        return input[input.find("{") + 1 : input.find("}")]
     else:
         return prompt
