@@ -34,7 +34,6 @@ def index_page():
 
 @app.route("/input_page")
 def input_page():
-    load_model()
     return render_template("input.html")
 
 
@@ -47,6 +46,8 @@ def loading_page():
 
 @app.route("/process_input", methods=["POST"])
 def process_input():
+    load_model()
+
     user_input = session.get("user_input", "")
 
     # Embed the input and find the best matches

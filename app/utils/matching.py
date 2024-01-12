@@ -100,7 +100,7 @@ def generate_embedding_similarity(
 ):
     similarities = [np.dot(embedding, emb) / (norm(embedding) * norm(emb)) for emb in embeddings]
 
-    plt.figure(figsize=(12, 6))
+    plt.figure(figsize=(20, 12))
     plt.bar(range(len(similarities)), similarities, color="blue")
     plt.xlabel("Embedding Index")
     plt.ylabel("Similarity")
