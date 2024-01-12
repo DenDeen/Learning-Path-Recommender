@@ -84,11 +84,6 @@ def download_file():
     return send_file(file_path, as_attachment=True)
 
 
-@app.route("/account_page")
-def account_page():
-    return render_template("account.html")
-
-
 @app.route("/chat", methods=["POST"])
 def chat():
     user_input = request.json.get("message")
@@ -108,29 +103,3 @@ def chat():
             yield " ".join(buffer)
 
     return Response(stream_with_context(generate()))
-
-
-# @app.route("/chat", methods=["POST"])
-# def chat():
-#     user_input = request.json.get("message")
-#     processed_input = model_utils.generate_chat_prompt(user_input)
-#     llm_output = model_utils.get_llm_generation(processed_input, current_model)
-#
-#     return Response(llm_output)
-
-
-# @app.route("/switch_model", methods=["POST"])
-# def switch_model():
-#     # Get the model size from the user
-#     model_size = request.form.get("model_size")
-#     session["size"] = model_size
-#
-#     # # Flush the memory and the session
-#     # # also check llamacpp code for flushing memory
-#     # session.clear()
-#
-#     # Download the model
-#     load_model(model_size)
-#
-#     print(f"Successfully switched to the {model_size} model.")
-#     return Response(f"Successfully switched to the {model_size} model.")
