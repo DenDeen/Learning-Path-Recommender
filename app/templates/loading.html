@@ -77,7 +77,7 @@
     let dotCount = 0;
 
     const updateDots = () => {
-        let dots = '.'.repeat(dotCount % 4); // Cycle through 0 to 3 dots
+        let dots = '.'.repeat(dotCount % 4);
         loadingDots.textContent = dots;
         dotCount++;
     };

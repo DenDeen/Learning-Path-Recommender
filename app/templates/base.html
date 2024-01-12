@@ -11,6 +11,9 @@
             min-width: 250px;
             max-width: 250px;
             min-height: 100vh;
+            position: sticky; /* Make the sidebar sticky */
+            top: 0; /* Stick it to the top of the viewport */
+            height: 100%; /* Take full height of the viewport */
         }
         #sidebar .navbar-brand, #sidebar .nav-link {
             width: 100%;
@@ -26,14 +29,14 @@
             padding: 0;
             margin: 0;
         }
-    
+
         #bottom-links {
             list-style-type: none;
             padding: 0;
             margin: 0;
             margin-top: auto; /* Pushes the bottom links to the bottom */
         }
-    
+
         #bottom-links .nav-link {
             margin-top: auto; /* Add spacing between bottom links if needed */
         }
@@ -84,7 +87,7 @@
                     <a class="nav-link" href="{{ url_for('input_page') }}">Get Started</a>
                     <a class="nav-link" href="{{ url_for('output_page') }}">Predictions</a>
                     <a class="nav-link" href="{{ url_for('survey') }}">Survey</a>
-                    
+
                     <!-- Add more links as needed -->
                 </li>
             </ul>
@@ -123,7 +126,7 @@
                 currentState = 'off';
             }
             stateSpan.innerHTML = currentState;
-        }, false);        
+        }, false);
     </script>
 </body>
 </html>

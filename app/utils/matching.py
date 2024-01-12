@@ -1,8 +1,6 @@
 import numpy as np
 from numpy.linalg import norm
 
-from langchain.embeddings import LlamaCppEmbeddings
-from nltk.corpus import stopwords
 import json
 
 import pickle
@@ -12,32 +10,26 @@ import seaborn as sns
 
 educations_path = "input/educations.csv"
 embeddings_path = "input/embeddings_checkpoint_skills.pkl"
-model_path = "input/mistral-7b-v0.1.Q4_K_M.gguf"
 
-stop_words = set(stopwords.words("english"))
 df = pd.read_csv(educations_path)
-llm = LlamaCppEmbeddings(model_path=model_path)
+word_occurrence_matrix = pd.read_csv("input/word_matrix.csv")
 with open(embeddings_path, "rb") as file:
     embeddings, _ = pickle.load(file)
 
 
-def embed_specific_query(query):
-    filtered_list = []
-    for w in query.split():
-        if w.lower() not in stop_words:
-            filtered_list.append(w)
-    filtered_query = " ".join(filtered_list)
-
-    specific_embedding = llm.embed_query(filtered_query)
-    return specific_embedding
-
-
-def find_best_matches(input_embedding, n=5):
+def find_best_matches(input_embedding, input_text, n=5):
     # Calculate cosine similarities (or any other similarity measure)
     similarities = [
         np.dot(input_embedding, emb) / (norm(input_embedding) * norm(emb))
         for emb in embeddings
     ]
+
+    # For each embedding index check if a word of the input text appears in word_occurrence_matrix
+    for i in range(len(similarities)):
+        for word in input_text.split():
+            if word.lower() in word_occurrence_matrix.columns:
+                if word_occurrence_matrix.iloc[i][word.lower()] > 0:
+                    similarities[i] *= 1.05 ** word_occurrence_matrix.iloc[i][word.lower()]
 
     # Get the indexes of the top n matches
     best_match_indexes = sorted(
@@ -48,9 +40,7 @@ def find_best_matches(input_embedding, n=5):
     best_matches = df.iloc[best_match_indexes]
 
     # Add the similarity scores to the best matches, rounded to 2 decimals
-    best_matches["similarity"] = np.round(
-        [similarities[i] for i in best_match_indexes], 4
-    )
+    best_matches["similarity"] = [similarities[i] for i in best_match_indexes]
 
     # rename columns
     best_matches = best_matches.rename(

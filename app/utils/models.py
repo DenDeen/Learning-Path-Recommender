@@ -1,6 +1,12 @@
 import os
 import urllib.request
+
+from langchain.embeddings import LlamaCppEmbeddings
 from llama_cpp import Llama
+from nltk.corpus import stopwords
+
+
+stop_words = set(stopwords.words("english"))
 
 
 def download_file(file_link, filename):
@@ -17,6 +23,19 @@ def get_model(model_path, filename):
     return Llama(model_path=filename, n_ctx=512, n_batch=126)
 
 
+def embed_specific_query(query, model_path):
+    filtered_list = []
+    for w in query.split():
+        if w.lower() not in stop_words:
+            filtered_list.append(w)
+    filtered_query = " ".join(filtered_list)
+
+    specific_embedding = LlamaCppEmbeddings(model_path=model_path).embed_query(
+        filtered_query
+    )
+    return specific_embedding
+
+
 def get_llm_generator(
     prompt,
     llm,
@@ -24,7 +43,7 @@ def get_llm_generator(
     temperature=0,
     top_p=0.9,
     echo=False,
-    stop=["[INST]"],
+    stop=["<|im_end|>"],
 ):
     text_generator = llm(
         prompt,
@@ -45,7 +64,7 @@ def get_llm_generation(
     temperature=0,
     top_p=0.9,
     echo=False,
-    stop=["[INST]"],
+    stop=["<|im_end|>"],
 ):
     text_generation = llm(
         prompt,
@@ -58,22 +77,15 @@ def get_llm_generation(
     return text_generation["choices"][0]["text"].strip()
 
 
-def generate_chat_prompt(prompt, size="large"):
-    system = ("You are a helpful bot that answers any questions the user may have. Only answer in short clear "
-              "sentences.")
-    if size == "large":
-        chat_prompt_template = f"<s>[INST] {system} [/INST]</s>{prompt}"
-    else:
-        chat_prompt_template = f"""### Assistant: {system}\n\n### Human: {prompt}\n\n### Assistant:"""
+def generate_chat_prompt(prompt):
+    system_message = "You are a helpful bot that answers any questions about the application with the given user context. The application is an ai powered course recommender. It predicts relevant courses that fit a query calculated with cosine similarity of the embeddings. Only answer in short clear sentences."
+    chat_prompt_template = f"<|im_start|>system\n{system_message}<|im_end|>\n<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant"
     return chat_prompt_template
 
 
-def generate_skill_extraction_prompt(prompt, size="large"):
-    system = ("You are a helpful bot that extracts skills that the user will learn after the given learnings. Only answer in a list of comma separated words in between curly brackets {}.")
-    if size == "large":
-        chat_prompt_template = f"<s>[INST] {system} [/INST]</s>{prompt}"
-    else:
-        chat_prompt_template = f"### Assistant: {system}\n\n### Human: {prompt}\n\n### Assistant:"
+def generate_skill_extraction_prompt(prompt):
+    system_message = "You are a helpful bot that extracts skills that the user will learn after the given learnings. Only answer in a list of comma separated words in between curly brackets {}."
+    chat_prompt_template = f"<|im_start|>system\n{system_message}<|im_end|>\n<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant"
     return chat_prompt_template
 
 
