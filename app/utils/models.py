@@ -20,7 +20,7 @@ def download_file(file_link, filename):
 
 def get_model(model_path, filename):
     download_file(model_path, filename)
-    return Llama(model_path=filename, n_ctx=512, n_batch=126)
+    return Llama(model_path=filename, n_ctx=1024, n_batch=126)
 
 
 def embed_specific_query(query, model_path):

@@ -8,6 +8,10 @@
         text-align: left;
     }
 
+    .container-fluid {
+            background-color: #ffffff;
+    }
+
     .content-background {
         background: url('{{ url_for('static', filename='images/learning_person.gif') }}') no-repeat center bottom;
         background-size: 55%;
@@ -39,9 +43,9 @@
 
 <div class="container mt-5 content-background content-container">
     <div class="loading-section">
-        <h3 id="loading-message">
+        <h2 id="loading-message" class="text-center">
             Preparing your personalized course recommendations<span id="loading-dots"></span>
-        </h3>
+        </h2>
         <button id="resultsButton" class="btn btn-success btn-lg btn-results" onclick="window.location.href = '{{ url_for('output_page') }}';">
             Go to Results Page
         </button>
