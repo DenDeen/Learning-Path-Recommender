@@ -76,29 +76,35 @@ def compare_embeddings(embeddings):
     return similarity_matrix
 
 
-def compare_single_embedding_to_others(single_embedding, embeddings):
-    similarities = [
-        np.dot(single_embedding, emb) / (norm(single_embedding) * norm(emb))
-        for emb in embeddings
-    ]
-    return similarities
+def generate_similarity_matrix():
+    n = len(embeddings)
+    similarity_matrix = np.zeros((n, n))
 
+    for i in range(n):
+        for j in range(i, n):
+            similarity = np.dot(embeddings[i], embeddings[j]) / (norm(embeddings[i]) * norm(embeddings[j]))
+            similarity_matrix[i][j] = similarity
+            similarity_matrix[j][i] = similarity
 
-def visualize_similarity_matrix(matrix, title="Similarity Matrix"):
     plt.figure(figsize=(20, 16))
-    sns.heatmap(matrix, annot=False, cmap="coolwarm", square=True)
-    plt.title(title)
+    sns.heatmap(similarity_matrix, annot=False, cmap="coolwarm", square=True)
     plt.ylabel("Embedding Index")
     plt.xlabel("Embedding Index")
-    plt.show()
+
+    # store the plot as a file
+    plt.savefig("app/static/images/similarity_matrix.png")
 
 
-def visualize_embedding_similarity(
-    similarities, title="Similarity to a Given Embedding"
+def generate_embedding_similarity(
+    embedding
 ):
+    similarities = [np.dot(embedding, emb) / (norm(embedding) * norm(emb)) for emb in embeddings]
+
     plt.figure(figsize=(12, 6))
     plt.bar(range(len(similarities)), similarities, color="blue")
     plt.xlabel("Embedding Index")
     plt.ylabel("Similarity")
-    plt.title(title)
-    plt.show()
+
+    # store the plot as a file
+    plt.savefig("app/static/images/similarity_embedding.png")
+
