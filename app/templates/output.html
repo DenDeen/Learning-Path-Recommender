@@ -162,6 +162,45 @@
         {% endfor %}
     </div>
 
+    <!-- Expert Information Section (initially hidden) -->
+    <div id="expertInformation" style="background-color: #21252907; padding: 20px; border-radius: 5px; margin-top: 20px;">
+        <h2 class="mb-4" style="color: #333;">Expert Information</h2>
+
+        <!-- Similarity Matrix Card -->
+        <div class="card mb-4">
+            <div class="card-body" style="padding:3rem 3rem 1rem">
+                <h3 class="card-title" style="color: #333;">Similarity Matrix</h3>
+                <p class="card-text" style="color: #777;">
+                    The similarity matrix is a visual representation of how similar each course is to every other course in our dataset. It is a key component of our course recommendation system. Each cell in the matrix represents the similarity score between two courses. A higher similarity score indicates that the two courses share more similarities in various aspects, making them more related. This matrix helps us in identifying course recommendations by analyzing the relationships between courses.
+                </p>
+            </div>
+            <img src="{{ url_for('static', filename='images/similarity_matrix.png') }}" alt="Similarity Matrix" class="card-img-top img-thumbnail rounded mt-3">
+        </div>
+
+        <!-- Similarity Embedding Card -->
+        <div class="card mb-4">
+            <div class="card-body" style="padding:3rem 3rem 1rem">
+                <h3 class="card-title" style="color: #333;">Similarity Embedding</h3>
+                <p class="card-text" style="color: #777;">
+                    The similarity embedding is another important component of our course recommendation system. It is a one-dimensional representation of the similarity scores between courses. Essentially, it is a row where each similarity score is lined up against each other. The position of each score in the row corresponds to a specific course, allowing us to efficiently compare their similarities. Courses with similar scores in the embedding are more likely to be recommended based on user preferences, as they share common characteristics or attributes.
+                </p>
+            </div>
+            <img src="{{ url_for('static', filename='images/similarity_embedding.png') }}" alt="Similarity Embedding" class="card-img-top img-thumbnail rounded mt-3">
+        </div>
+
+        <!-- About Similarity Metrics Card -->
+        <div class="card">
+            <div class="card-body" style="padding:3rem 3rem">
+                <h3 class="card-title" style="color: #333;">About Similarity Metrics</h3>
+                <p class="card-text" style="color: #777;">
+                    The similarity matrix and similarity embedding are vital tools in our course recommendation system. They are employed to measure the similarity between different courses based on various factors such as content, prerequisites, and student reviews. These metrics are essential in helping us provide personalized course recommendations to our users. By utilizing these metrics, we can offer courses that align more closely with individual preferences and needs, enhancing the overall user experience.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
     <div class="row justify-content-center mt-4">
         <div class="col-lg-6 text-center mb-4">
             <a class="btn btn-outline-secondary btn-lg" href="{{ url_for('survey') }}" role="button">Take the Survey</a>
@@ -226,6 +265,7 @@
     var isChatBotResponding = false;
 
     toggleChatFunctions();
+    toggleExpertInformation();
 
     document.querySelectorAll('.example-input').forEach(function (example) {
         example.addEventListener('click', function () {
@@ -236,6 +276,17 @@
             sendChat();
         });
     });
+
+    function toggleExpertInformation() {
+        var expertInformation = document.getElementById('expertInformation');
+        var ceToggle = document.getElementById('ce-toggle');
+
+        if (ceToggle.checked) {
+            expertInformation.style.display = 'block'; // Show the 'Expert Information' section
+        } else {
+            expertInformation.style.display = 'none'; // Hide the 'Expert Information' section
+        }
+    }
 
     function toggleChatFunctions() {
         var chatInputSection = document.getElementById('chatInputSection');
