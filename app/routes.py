@@ -12,8 +12,8 @@ from app.utils import models as model_utils
 from app.utils import matching as matching_utils
 
 
-model_path = "https://huggingface.co/TheBloke/dolphin-2.6-mistral-7B-dpo-laser-GGUF/resolve/main/dolphin-2.6-mistral-7b-dpo-laser.Q4_K_M.gguf"
-filename = "input/dolphin-2.6-mistral-7b-dpo-laser.Q4_K_M.gguf"
+model_path = "https://huggingface.co/TheBloke/dolphin-2.6-mistral-7B-dpo-laser-GGUF/resolve/main/dolphin-2.6-mistral-7b-dpo-laser.Q3_K_S.gguf"
+filename = "input/dolphin-2.6-mistral-7b-dpo-laser.Q3_K_S.gguf"
 global current_model
 global embedder
 
