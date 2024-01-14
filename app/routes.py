@@ -58,8 +58,8 @@ def process_input():
     session["courses"] = matching_utils.convert_df_to_json(best_matches)
 
     # Generate similarity matrix and embedding comparison
-    matching_utils.generate_similarity_matrix()
-    matching_utils.generate_embedding_similarity(embedded_output)
+    # matching_utils.generate_similarity_matrix()
+    # matching_utils.generate_embedding_similarity(embedded_output)
 
     return jsonify({"success": True, "courses": session["courses"]})
 
