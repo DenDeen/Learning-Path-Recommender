@@ -166,35 +166,70 @@
     <div id="expertInformation" style="background-color: #21252907; padding: 20px; border-radius: 5px; margin-top: 20px;">
         <h2 class="mb-4" style="color: #333;">Expert Information</h2>
 
-        <!-- Similarity Matrix Card -->
-        <div class="card mb-4">
+        <!-- Large Language Models Card -->
+        <div class="card mb-4 shadow">
             <div class="card-body" style="padding:3rem 3rem 1rem">
-                <h3 class="card-title" style="color: #333;">Similarity Matrix</h3>
+                <h3 class="card-title" style="color: #333;">Large Language Models (LLMs)</h3>
                 <p class="card-text" style="color: #777;">
-                    The similarity matrix is a visual representation of how similar each course is to every other course in our dataset. It is a key component of our course recommendation system. Each cell in the matrix represents the similarity score between two courses. A higher similarity score indicates that the two courses share more similarities in various aspects, making them more related. This matrix helps us in identifying course recommendations by analyzing the relationships between courses.
+                    Large Language Models like GPT-3 play a key role in generating personalized course recommendations. They understand natural language queries and provide context-aware suggestions. For our application, we used the Mistral-7B model, which is an open-source large-scale language model trained on a massive dataset. It is capable of generating high-quality responses to a wide range of queries, making it ideal for our use case. <br> <br> Use the below model card to get more information about the model:
+                </p>
+                <!-- About LLM Model Card -->
+                <div class="row mb-3 justify-content-center">
+                    <div style="max-width: 600px; margin: 0 auto">
+                        <div class="card" style="border: 1px solid #ccc;">
+                            <div class="card-body">
+                                <h5 class="card-title">Model Information</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">mistraIai/Mistral-7B-Instruct-v0.2</h6>
+                                <a href="https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2" class="btn btn-outline-primary mb-2 w-100">Model page</a>
+                                <a href="https://mistral.ai/news/announcing-mistral-7b/" class="btn btn-outline-secondary w-100">Website</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Embedding Comparison Card -->
+        <div class="card mb-4 shadow">
+            <div class="card-body" style="padding:3rem 3rem 1rem">
+                <h3 class="card-title" style="color: #333;">Embedding Comparison</h3>
+                <p class="card-text" style="color: #777;">
+                    The embedding comparison is a crucial part of our recommendation system. It involves representing courses as points in a high-dimensional space (embedding) and measuring their proximity to determine similarity.<br><br>To understand this better, below is an example of how the embedding comparison works. The two-dimensional space represents the embedding, and each point represents a word. The angle of vectors between points indicates their similarity. Explained simply, courses that are closer together are more similar, while courses that are farther apart are less similar. In a way we are trying to convert meaning into numbers, which can then be used to compare courses.
                 </p>
             </div>
-            <img src="{{ url_for('static', filename='images/similarity_matrix.png') }}" alt="Similarity Matrix" class="card-img-top img-thumbnail rounded mt-3">
+            <!-- Embedding Comparison -->
+            <div style="padding: 1rem; max-width: 800px; margin: 0 auto">
+                <img src="{{ url_for('static', filename='images/vector-image.png') }}" alt="Similarity Embedding" class="card-img-top img-thumbnail">
+            </div>
         </div>
 
         <!-- Similarity Embedding Card -->
-        <div class="card mb-4">
+        <div class="card mb-4 shadow">
             <div class="card-body" style="padding:3rem 3rem 1rem">
                 <h3 class="card-title" style="color: #333;">Similarity Embedding</h3>
                 <p class="card-text" style="color: #777;">
-                    The similarity embedding is another important component of our course recommendation system. It is a one-dimensional representation of the similarity scores between courses. Essentially, it is a row where each similarity score is lined up against each other. The position of each score in the row corresponds to a specific course, allowing us to efficiently compare their similarities. Courses with similar scores in the embedding are more likely to be recommended based on user preferences, as they share common characteristics or attributes.
+                    A more advanced example of our embeddings can be found below. All courses are represented by embeddings. These are all compared with eachother which results in similarity scores between courses and your input. The similarity scores are stacked next to each other and shown below. Essentially, it is a row where each similarity score is lined up against each other. The position of each score in the row corresponds to a specific course, allowing us to efficiently compare their similarities. Courses with similar scores in the embedding are more likely to be recommended based on user preferences, as they share common characteristics or attributes.
                 </p>
             </div>
-            <img src="{{ url_for('static', filename='images/similarity_embedding.png') }}" alt="Similarity Embedding" class="card-img-top img-thumbnail rounded mt-3">
+            <div style="padding: 1rem;">
+                <img src="{{ url_for('static', filename='images/similarity_embedding.png') }}" alt="Similarity Embedding" class="card-img-top img-thumbnail">
+            </div>
         </div>
 
-        <!-- About Similarity Metrics Card -->
-        <div class="card">
-            <div class="card-body" style="padding:3rem 3rem">
-                <h3 class="card-title" style="color: #333;">About Similarity Metrics</h3>
+        <!-- Similarity Matrix Card -->
+        <div class="card mb-4 shadow">
+            <div class="card-body" style="padding:3rem 3rem 1rem">
+                <h3 class="card-title" style="color: #333;">Similarity Matrix</h3>
                 <p class="card-text" style="color: #777;">
-                    The similarity matrix and similarity embedding are vital tools in our course recommendation system. They are employed to measure the similarity between different courses based on various factors such as content, prerequisites, and student reviews. These metrics are essential in helping us provide personalized course recommendations to our users. By utilizing these metrics, we can offer courses that align more closely with individual preferences and needs, enhancing the overall user experience.
+                    The similarity matrix and similarity embedding serve as pivotal components within our course recommendation system, offering an alternative perspective on the relationships between our courses. These visualization tools are designed to provide a clear understanding of how courses compare to each other.
+                    <br><br>
+                    In the similarity matrix, each row-column intersection is depicted using a color spectrum ranging from blue to red. This color gradient is used to convey the degree of similarity between courses. When a cell is shaded in red, it indicates a high level of similarity between the respective courses, suggesting that they share significant commonalities in various aspects. Conversely, when a cell appears in shades of blue, it signifies a lower level of similarity, implying that the courses are less closely related or have fewer shared attributes.
+                    <br><br>
+                    By visually representing these relationships in the form of a matrix, the similarity matrix offers a quick and intuitive way to assess which courses exhibit strong similarities and which ones are more distinct. This valuable insight aids our recommendation system in providing you with course suggestions that align closely with your preferences and interests.
                 </p>
+            </div>
+            <div style="padding: 1rem;">
+                <img src="{{ url_for('static', filename='images/similarity_matrix.png') }}" alt="Similarity Matrix" class="card-img-top img-thumbnail">
             </div>
         </div>
     </div>

@@ -29,7 +29,7 @@ def find_best_matches(input_embedding, input_text, n=5):
         for word in input_text.split():
             if word.lower() in word_occurrence_matrix.columns:
                 if word_occurrence_matrix.iloc[i][word.lower()] > 0:
-                    similarities[i] *= 1.05 ** word_occurrence_matrix.iloc[i][word.lower()]
+                    similarities[i] *= 1.1 ** word_occurrence_matrix.iloc[i][word.lower()]
 
     # Get the indexes of the top n matches
     best_match_indexes = sorted(
