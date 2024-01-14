@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9abf2053-cc66-478d-956f-af18cffc4087" name="Changes" comment="Func update">
+      <change beforePath="$PROJECT_DIR$/app/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/images/similarity_embedding.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/images/similarity_embedding.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/input.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/input.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/output.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/output.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/utils/matching.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils/matching.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2YcvsTpSIDQCRyBtIXYaq9H1Scz" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "f-upd-exp",
+    "last_opened_file_path": "C:/Users/skovda93/OneDrive - imec/Documents/GitHub/fmi-music/app/utils"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\skovda93\OneDrive - imec\Documents\GitHub\fmi-music\app\utils" />
+      <recent name="C:\Users\skovda93\OneDrive - imec\Documents\GitHub\fmi-music\app\templates" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\skovda93\OneDrive - imec\Documents\GitHub\fmi-music\input\other" />
+      <recent name="C:\Users\skovda93\OneDrive - imec\Documents\GitHub\fmi-music\input\models" />
+      <recent name="C:\Users\skovda93\OneDrive - imec\Documents\GitHub\fmi-music\app\static\images" />
+      <recent name="C:\Users\skovda93\OneDrive - imec\Documents\GitHub\fmi-music\app\templates" />
+      <recent name="C:\Users\skovda93\OneDrive - imec\Documents\GitHub\fmi-music\app\static" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9abf2053-cc66-478d-956f-af18cffc4087" name="Changes" comment="" />
+      <created>1700837888970</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1700837888970</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Init still needs work">
+      <option name="closed" value="true" />
+      <created>1701540812639</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1701540812639</updated>
+    </task>
+    <task id="LOCAL-00002" summary="images">
+      <option name="closed" value="true" />
+      <created>1701540832189</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1701540832189</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Predictions">
+      <option name="closed" value="true" />
+      <created>1704581403175</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1704581403175</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Chat streamer&#10;&#10;TODO: fix&#10;stream properly&#10;block when streaming">
+      <option name="closed" value="true" />
+      <created>1704582059628</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1704582059628</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Chat streamer and matching improvements">
+      <option name="closed" value="true" />
+      <created>1704663219943</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1704663219943</updated>
+    </task>
+    <task id="LOCAL-00006" summary="test">
+      <option name="closed" value="true" />
+      <created>1704928362892</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1704928362892</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Almost done">
+      <option name="closed" value="true" />
+      <created>1705021672157</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1705021672157</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Cleanup">
+      <option name="closed" value="true" />
+      <created>1705022109444</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1705022109444</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Chat functionality">
+      <option name="closed" value="true" />
+      <created>1705056917104</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1705056917104</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Run for input">
+      <option name="closed" value="true" />
+      <created>1705058180433</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1705058180433</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Expert info">
+      <option name="closed" value="true" />
+      <created>1705064018039</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1705064018039</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Func update">
+      <option name="closed" value="true" />
+      <created>1705064950200</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1705064950200</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Func update">
+      <option name="closed" value="true" />
+      <created>1705256513213</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1705256513213</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Func update">
+      <option name="closed" value="true" />
+      <created>1705259705839</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1705259705839</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Init still needs work" />
+    <MESSAGE value="images" />
+    <MESSAGE value="Predictions" />
+    <MESSAGE value="Chat streamer&#10;&#10;TODO: fix&#10;stream properly&#10;block when streaming" />
+    <MESSAGE value="Chat streamer and matching improvements" />
+    <MESSAGE value="test" />
+    <MESSAGE value="Almost done" />
+    <MESSAGE value="Cleanup" />
+    <MESSAGE value="Chat functionality" />
+    <MESSAGE value="Run for input" />
+    <MESSAGE value="Expert info" />
+    <MESSAGE value="Func update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Func update" />
+  </component>
+</project>

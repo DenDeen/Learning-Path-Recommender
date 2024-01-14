@@ -1,0 +1,346 @@
+Index: app/utils/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import os\r\nimport urllib.request\r\nfrom llama_cpp import Llama\r\n\r\nggml_model_path = \"https://huggingface.co/TheBloke/Mistral-7B-v0.1-GGUF/resolve/main/mistral-7b-v0.1.Q4_K_M.gguf\"\r\nfilename = \"input/mistral-7b-v0.1.Q4_K_M.gguf\"\r\n\r\nllm = Llama(model_path=filename, n_ctx=512, n_batch=126)\r\n\r\n\r\ndef download_file(file_link, filename):\r\n    # Checks if the file already exists before downloading\r\n    if not os.path.isfile(filename):\r\n        urllib.request.urlretrieve(file_link, filename)\r\n        print(\"File downloaded successfully.\")\r\n    else:\r\n        print(\"File already exists.\")\r\n\r\n\r\ndef get_llm_generator(\r\n    prompt,\r\n    max_tokens=512,\r\n    temperature=0,\r\n    top_p=0.9,\r\n    echo=False,\r\n    stop=[\"[INST]\"],\r\n):\r\n    text_generator = llm(\r\n        prompt,\r\n        max_tokens=max_tokens,\r\n        temperature=temperature,\r\n        top_p=top_p,\r\n        echo=echo,\r\n        stream=True,\r\n        stop=stop,\r\n    )\r\n    return text_generator\r\n\r\n\r\ndef get_llm_generation(\r\n    prompt,\r\n    max_tokens=512,\r\n    temperature=0,\r\n    top_p=0.9,\r\n    echo=False,\r\n    stop=[\"[INST]\"],\r\n):\r\n    text_generation = llm(\r\n        prompt,\r\n        max_tokens=max_tokens,\r\n        temperature=temperature,\r\n        top_p=top_p,\r\n        echo=echo,\r\n        stop=stop,\r\n    )\r\n    return text_generation[\"choices\"][0][\"text\"].strip()\r\n\r\n\r\ndef generate_chat_prompt(input):\r\n    system = \"You are a helpful bot that answers any questions the user may have. Only answer in short clear sentences.\"\r\n    chat_prompt_template = f\"<s>[INST] {system} [/INST]</s>{input}\"\r\n    return chat_prompt_template\r\n\r\n\r\ndef generate_skill_extraction_prompt(input):\r\n    system = \"You are a helpful bot that extracts a couple of skills the user will learn after learning what the user wants to learn. Only answer in a list of comma separated words in between curly brackets.\"\r\n    chat_prompt_template = f\"<s>[INST] {system} [/INST]</s>{input}\"\r\n    return chat_prompt_template\r\n\r\n\r\ndef process_skill_extraction_prompt(input, prompt):\r\n    if \"{\" in input and \"}\" in input:\r\n        return input[input.find(\"{\")+1:input.find(\"}\")]\r\n    else:\r\n        return prompt\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/utils/models.py b/app/utils/models.py
+--- a/app/utils/models.py	(revision e79298ebf7d2e199bcb27beb005fb17d99ebd281)
++++ b/app/utils/models.py	(date 1704922989938)
+@@ -2,11 +2,6 @@
+ import urllib.request
+ from llama_cpp import Llama
+ 
+-ggml_model_path = "https://huggingface.co/TheBloke/Mistral-7B-v0.1-GGUF/resolve/main/mistral-7b-v0.1.Q4_K_M.gguf"
+-filename = "input/mistral-7b-v0.1.Q4_K_M.gguf"
+-
+-llm = Llama(model_path=filename, n_ctx=512, n_batch=126)
+-
+ 
+ def download_file(file_link, filename):
+     # Checks if the file already exists before downloading
+@@ -17,8 +12,14 @@
+         print("File already exists.")
+ 
+ 
++def get_model(model_path, filename):
++    download_file(model_path, filename)
++    return Llama(model_path=filename, n_ctx=512, n_batch=126)
++
++
+ def get_llm_generator(
+     prompt,
++    llm,
+     max_tokens=512,
+     temperature=0,
+     top_p=0.9,
+@@ -39,6 +40,7 @@
+ 
+ def get_llm_generation(
+     prompt,
++    llm,
+     max_tokens=512,
+     temperature=0,
+     top_p=0.9,
+@@ -56,20 +58,27 @@
+     return text_generation["choices"][0]["text"].strip()
+ 
+ 
+-def generate_chat_prompt(input):
+-    system = "You are a helpful bot that answers any questions the user may have. Only answer in short clear sentences."
+-    chat_prompt_template = f"<s>[INST] {system} [/INST]</s>{input}"
++def generate_chat_prompt(prompt, size="large"):
++    system = ("You are a helpful bot that answers any questions the user may have. Only answer in short clear "
++              "sentences.")
++    if size == "large":
++        chat_prompt_template = f"<s>[INST] {system} [/INST]</s>{prompt}"
++    else:
++        chat_prompt_template = f"""### Assistant: {system}\n\n### Human: {prompt}\n\n### Assistant:"""
+     return chat_prompt_template
+ 
+ 
+-def generate_skill_extraction_prompt(input):
+-    system = "You are a helpful bot that extracts a couple of skills the user will learn after learning what the user wants to learn. Only answer in a list of comma separated words in between curly brackets."
+-    chat_prompt_template = f"<s>[INST] {system} [/INST]</s>{input}"
++def generate_skill_extraction_prompt(prompt, size="large"):
++    system = ("You are a helpful bot that extracts skills that the user will learn after the given learnings. Only answer in a list of comma separated words in between curly brackets {}.")
++    if size == "large":
++        chat_prompt_template = f"<s>[INST] {system} [/INST]</s>{prompt}"
++    else:
++        chat_prompt_template = f"### Assistant: {system}\n\n### Human: {prompt}\n\n### Assistant:"
+     return chat_prompt_template
+ 
+ 
+ def process_skill_extraction_prompt(input, prompt):
+     if "{" in input and "}" in input:
+-        return input[input.find("{")+1:input.find("}")]
++        return input[input.find("{") + 1 : input.find("}")]
+     else:
+         return prompt
+Index: app/routes.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import render_template, request, stream_with_context, Response, send_file, session\r\nfrom app import app\r\nfrom app.utils import models as model_utils\r\nfrom app.utils import matching as matching_utils\r\n\r\n\r\n@app.route(\"/\")\r\ndef index_page():\r\n    return render_template(\"index.html\")\r\n\r\n\r\n@app.route(\"/input_page\")\r\ndef input_page():\r\n    return render_template(\"input.html\")\r\n\r\n\r\n@app.route(\"/loading_page\", methods=[\"POST\"])\r\ndef loading_page():\r\n    # Get input from the user\r\n    user_input = request.form.get(\"input_text\")\r\n\r\n    # Improve the user_input\r\n    processed_output = model_utils.generate_skill_extraction_prompt(user_input)\r\n    processed_output = model_utils.get_llm_generation(processed_output)\r\n    processed_output = model_utils.process_skill_extraction_prompt(processed_output, user_input)\r\n    print(processed_output)\r\n\r\n    # Embed the input and find the best matches\r\n    embedded_output = matching_utils.embed_specific_query(processed_output)\r\n    best_matches = matching_utils.find_best_matches(embedded_output)\r\n\r\n    # Convert the best matches to JSON objects\r\n    session['courses'] = matching_utils.convert_df_to_json(best_matches)\r\n    return render_template(\"loading.html\")\r\n\r\n\r\n@app.route(\"/output_page\", methods=[\"GET\"])\r\ndef output_page():\r\n    # Get the predicted courses from the session\r\n    predicted_courses = session.get('courses', [])\r\n    return render_template(\"output.html\", courses=predicted_courses)\r\n\r\n\r\n@app.route(\"/output\")\r\ndef output():\r\n    return render_template(\"output.html\")\r\n\r\n\r\n@app.route(\"/survey\")\r\ndef survey():\r\n    return render_template(\"survey.html\")\r\n\r\n\r\n@app.route(\"/download\")\r\ndef download_file():\r\n    # Path to the file you want to serve\r\n    file_path = \"static/resources/informatiebrief.pdf\"\r\n    return send_file(file_path, as_attachment=True)\r\n\r\n\r\n@app.route(\"/account_page\")\r\ndef account_page():\r\n    return render_template(\"account.html\")\r\n\r\n\r\n@app.route(\"/chat\", methods=[\"POST\"])\r\ndef chat():\r\n    user_input = request.json.get(\"message\")\r\n    processed_input = model_utils.generate_chat_prompt(user_input)\r\n    llm_output = model_utils.get_llm_generation(processed_input)\r\n\r\n    return Response(llm_output)\r\n\r\n\r\n# @app.route(\"/chat\", methods=[\"POST\"])\r\n# def chat():\r\n#     user_input = request.json.get(\"message\")\r\n#     processed_input = model_utils.generate_chat_prompt(user_input)\r\n#     streamer = model_utils.get_llm_generator(processed_input)\r\n#\r\n#     buffer = []\r\n#     buffer_size = 3\r\n#\r\n#     def generate():\r\n#         for word in streamer:\r\n#             buffer.append(word[\"choices\"][0][\"text\"].strip())\r\n#             if len(buffer) >= buffer_size:\r\n#                 yield \" \".join(buffer)\r\n#                 buffer.clear()\r\n#         if buffer:\r\n#             yield \" \".join(buffer)\r\n#\r\n#     return Response(stream_with_context(generate()))\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/routes.py b/app/routes.py
+--- a/app/routes.py	(revision e79298ebf7d2e199bcb27beb005fb17d99ebd281)
++++ b/app/routes.py	(date 1704927923926)
+@@ -1,11 +1,40 @@
+-from flask import render_template, request, stream_with_context, Response, send_file, session
++from flask import (
++    render_template,
++    request,
++    stream_with_context,
++    Response,
++    send_file,
++    session, jsonify,
++)
+ from app import app
+ from app.utils import models as model_utils
+ from app.utils import matching as matching_utils
+ 
+ 
++large_model_path = "https://huggingface.co/TheBloke/Mistral-7B-v0.1-GGUF/resolve/main/mistral-7b-v0.1.Q4_K_M.gguf"
++small_model_path = "https://huggingface.co/TheBloke/phi-2-dpo-GGUF/resolve/main/phi-2-dpo.Q5_K_S.gguf	"
++large_filename = "input/mistral-7b-v0.1.Q4_K_M.gguf"
++small_filename = "input/phi-2-dpo.Q5_K_S.gguf"
++global current_model
++
++
++def load_model(model_size):
++    # Unload the current model if it exists
++    global current_model
++
++    # Load the desired model
++    if model_size == "large":
++        current_model = model_utils.get_model(large_model_path, large_filename)
++    elif model_size == "small":
++        current_model = model_utils.get_model(small_model_path, small_filename)
++
++    return current_model
++
++
+ @app.route("/")
+ def index_page():
++    session["size"] = "large"
++    load_model(session["size"])
+     return render_template("index.html")
+ 
+ 
+@@ -16,28 +45,38 @@
+ 
+ @app.route("/loading_page", methods=["POST"])
+ def loading_page():
+-    # Get input from the user
+-    user_input = request.form.get("input_text")
++    # Save the user input in the session
++    session["user_input"] = request.form.get("input_text")
++
++    return render_template("loading.html")
++
++
++@app.route("/process_input", methods=["POST"])
++def process_input():
++    user_input = session.get("user_input", "")
++    size = session["size"]
+ 
+     # Improve the user_input
+-    processed_output = model_utils.generate_skill_extraction_prompt(user_input)
+-    processed_output = model_utils.get_llm_generation(processed_output)
+-    processed_output = model_utils.process_skill_extraction_prompt(processed_output, user_input)
+-    print(processed_output)
++    # processed_output = model_utils.generate_skill_extraction_prompt(user_input, size)
++    # processed_output = model_utils.get_llm_generation(processed_output, current_model)
++    # print(f"Processed output: {processed_output}")
++    # processed_output = model_utils.process_skill_extraction_prompt(
++    #     processed_output, user_input
++    # )
+ 
+     # Embed the input and find the best matches
+     embedded_output = matching_utils.embed_specific_query(processed_output)
+     best_matches = matching_utils.find_best_matches(embedded_output)
+ 
+-    # Convert the best matches to JSON objects
+-    session['courses'] = matching_utils.convert_df_to_json(best_matches)
+-    return render_template("loading.html")
++    # Convert the best matches to JSON objects and Store the results in the session
++    session["courses"] = matching_utils.convert_df_to_json(best_matches)
++    return jsonify({"success": True, "courses": session["courses"]})
+ 
+ 
+ @app.route("/output_page", methods=["GET"])
+ def output_page():
+     # Get the predicted courses from the session
+-    predicted_courses = session.get('courses', [])
++    predicted_courses = session.get("courses", [])
+     return render_template("output.html", courses=predicted_courses)
+ 
+ 
+@@ -63,11 +102,28 @@
+     return render_template("account.html")
+ 
+ 
++@app.route("/switch_model", methods=["POST"])
++def switch_model():
++    # Get the model size from the user
++    model_size = request.form.get("model_size")
++    session["size"] = model_size
++
++    # # Flush the memory and the session
++    # # also check llamacpp code for flushing memory
++    # session.clear()
++
++    # Download the model
++    load_model(model_size)
++
++    print(f"Successfully switched to the {model_size} model.")
++    return Response(f"Successfully switched to the {model_size} model.")
++
++
+ @app.route("/chat", methods=["POST"])
+ def chat():
+     user_input = request.json.get("message")
+-    processed_input = model_utils.generate_chat_prompt(user_input)
+-    llm_output = model_utils.get_llm_generation(processed_input)
++    processed_input = model_utils.generate_chat_prompt(user_input, session["size"])
++    llm_output = model_utils.get_llm_generation(processed_input, current_model)
+ 
+     return Response(llm_output)
+ 
+Index: app/templates/loading.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends 'base.html' %}\r\n\r\n{% block content %}\r\n<style>\r\n    .centered-container {\r\n        position: fixed;\r\n        top: 50%;\r\n        left: 50%;\r\n        transform: translate(-50%, -50%);\r\n        width: 100%; /* Use full width to ensure centering */\r\n        text-align: center;\r\n    }\r\n\r\n    .loading-section {\r\n        margin: 0 auto; /* Centering the section */\r\n        height: 5rem; /* Fixed height to accommodate progress bar and button */\r\n    }\r\n\r\n    .progress {\r\n        width: 40%; /* Width of the progress bar and button */\r\n        height: 2rem; /* Makes the progress bar thicker */\r\n        margin: 0 auto; /* Centers the progress bar */\r\n    }\r\n\r\n    .btn-results {\r\n        font-size: 1.5rem; /* Larger text for the button */\r\n        padding: 0.75rem 1.5rem; /* Bigger button */\r\n        border-radius: 2rem; /* Rounded borders for the button */\r\n        margin: 2rem auto; /* Centers the progress bar */\r\n        display: none; /* Initially hide the button */\r\n    }\r\n</style>\r\n\r\n<div class=\"centered-container\">\r\n    <h3>Preparing your personalized course recommendations...</h3>\r\n    <div class=\"loading-section\">\r\n        <div class=\"progress my-4\">\r\n            <div class=\"progress-bar progress-bar-striped progress-bar-animated\"\r\n                 role=\"progressbar\"\r\n                 aria-valuenow=\"0\"\r\n                 aria-valuemin=\"0\"\r\n                 aria-valuemax=\"100\"\r\n                 id=\"progressBar\">\r\n            </div>\r\n        </div>\r\n        <button id=\"resultsButton\" class=\"btn btn-success btn-lg btn-results hidden\" onclick=\"window.location.href = '{{ url_for('output_page') }}';\">\r\n            Go to Results Page\r\n        </button>\r\n    </div>\r\n</div>\r\n\r\n<script>\r\n    const progressBar = document.getElementById('progressBar');\r\n    const resultsButton = document.getElementById('resultsButton');\r\n    let width = 0;\r\n\r\n    // Update the progress bar every 100 milliseconds\r\n    const interval = setInterval(() => {\r\n        width += 2; // Increment the width by 1%\r\n        progressBar.style.width = width + '%';\r\n        progressBar.setAttribute('aria-valuenow', width);\r\n\r\n        if (width >= 100) {\r\n            clearInterval(interval); // Stop the interval when it reaches 100%\r\n            progressBar.classList.remove('progress-bar-striped', 'progress-bar-animated', 'bg-info');\r\n            progressBar.classList.add('bg-success'); // Change color to green\r\n            resultsButton.style.display = 'block'; // Reveal the button\r\n        }\r\n    }, 100); // 10 seconds = 10000 milliseconds, so 10000ms / 100 = 100ms intervals\r\n</script>\r\n{% endblock %}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/templates/loading.html b/app/templates/loading.html
+--- a/app/templates/loading.html	(revision e79298ebf7d2e199bcb27beb005fb17d99ebd281)
++++ b/app/templates/loading.html	(date 1704927606756)
+@@ -2,24 +2,30 @@
+ 
+ {% block content %}
+ <style>
+-    .centered-container {
+-        position: fixed;
+-        top: 50%;
+-        left: 50%;
+-        transform: translate(-50%, -50%);
+-        width: 100%; /* Use full width to ensure centering */
+-        text-align: center;
++    #loading-dots {
++        display: inline-block;
++        width: 30px; /* Adjust the width as needed */
++        text-align: left;
++    }
++
++    .content-background {
++        background: url('{{ url_for('static', filename='images/learning_person.gif') }}') no-repeat center bottom;
++        background-size: 55%;
++    }
++
++    .content-container {
++        min-height: calc(100vh - 3rem);; /* Full height */
++        display: flex;
++        flex-direction: column;
+     }
+ 
+     .loading-section {
+-        margin: 0 auto; /* Centering the section */
+-        height: 5rem; /* Fixed height to accommodate progress bar and button */
++        margin: auto auto; /* Centering the section */
++        height: 15rem; /* Fixed height to accommodate progress bar and button */
+     }
+ 
+-    .progress {
+-        width: 40%; /* Width of the progress bar and button */
+-        height: 2rem; /* Makes the progress bar thicker */
+-        margin: 0 auto; /* Centers the progress bar */
++    .spinner {
++        margin: 2rem auto; /* Centers the spinner */
+     }
+ 
+     .btn-results {
+@@ -31,41 +37,52 @@
+     }
+ </style>
+ 
+-<div class="centered-container">
+-    <h3>Preparing your personalized course recommendations...</h3>
++<div class="container mt-5 content-background content-container">
+     <div class="loading-section">
+-        <div class="progress my-4">
+-            <div class="progress-bar progress-bar-striped progress-bar-animated"
+-                 role="progressbar"
+-                 aria-valuenow="0"
+-                 aria-valuemin="0"
+-                 aria-valuemax="100"
+-                 id="progressBar">
+-            </div>
+-        </div>
+-        <button id="resultsButton" class="btn btn-success btn-lg btn-results hidden" onclick="window.location.href = '{{ url_for('output_page') }}';">
++        <h3 id="loading-message">
++            Preparing your personalized course recommendations<span id="loading-dots"></span>
++        </h3>
++        <button id="resultsButton" class="btn btn-success btn-lg btn-results" onclick="window.location.href = '{{ url_for('output_page') }}';">
+             Go to Results Page
+         </button>
+     </div>
+ </div>
+ 
+ <script>
+-    const progressBar = document.getElementById('progressBar');
+-    const resultsButton = document.getElementById('resultsButton');
+-    let width = 0;
++    document.addEventListener('DOMContentLoaded', function () {
++        const loadingMessage = document.getElementById('loading-message');
++        const resultsButton = document.getElementById('resultsButton');
+ 
+-    // Update the progress bar every 100 milliseconds
+-    const interval = setInterval(() => {
+-        width += 2; // Increment the width by 1%
+-        progressBar.style.width = width + '%';
+-        progressBar.setAttribute('aria-valuenow', width);
++        fetch('/process_input', {
++            method: 'POST',
++            headers: {
++                'Content-Type': 'application/json'
++            }
++        })
++        .then(response => response.json())
++        .then(data => {
++            if (data.success) {
++                console.log("Processing completed", data.courses);
++                loadingMessage.innerText = "Your personalized course recommendations are ready!";
++                resultsButton.style.display = 'block'; // Show the results button
++            }
++        })
++        .catch(error => {
++            console.error("Error: Unable to process input", error);
++            loadingMessage.innerText = "An error occurred while processing your input. Please try again later.";
++        });
++    });
+ 
+-        if (width >= 100) {
+-            clearInterval(interval); // Stop the interval when it reaches 100%
+-            progressBar.classList.remove('progress-bar-striped', 'progress-bar-animated', 'bg-info');
+-            progressBar.classList.add('bg-success'); // Change color to green
+-            resultsButton.style.display = 'block'; // Reveal the button
+-        }
+-    }, 100); // 10 seconds = 10000 milliseconds, so 10000ms / 100 = 100ms intervals
++    const loadingDots = document.getElementById('loading-dots');
++    let dotCount = 0;
++
++    const updateDots = () => {
++        let dots = '.'.repeat(dotCount % 4); // Cycle through 0 to 3 dots
++        loadingDots.textContent = dots;
++        dotCount++;
++    };
++
++    setInterval(updateDots, 500);
+ </script>
++
+ {% endblock %}

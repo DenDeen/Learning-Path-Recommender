@@ -8,11 +8,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-educations_path = "input/educations.csv"
-embeddings_path = "input/embeddings_checkpoint_skills.pkl"
+educations_path = "input/other/educations.csv"
+embeddings_path = "input/other/embeddings_checkpoint_skills.pkl"
 
 df = pd.read_csv(educations_path)
-word_occurrence_matrix = pd.read_csv("input/word_matrix.csv")
+word_occurrence_matrix = pd.read_csv("input/other/word_matrix.csv")
 with open(embeddings_path, "rb") as file:
     embeddings, _ = pickle.load(file)
 
@@ -29,7 +29,7 @@ def find_best_matches(input_embedding, input_text, n=5):
         for word in input_text.split():
             if word.lower() in word_occurrence_matrix.columns:
                 if word_occurrence_matrix.iloc[i][word.lower()] > 0:
-                    similarities[i] *= 1.1 ** word_occurrence_matrix.iloc[i][word.lower()]
+                    similarities[i] *= 1.075 ** word_occurrence_matrix.iloc[i][word.lower()]
 
     # Get the indexes of the top n matches
     best_match_indexes = sorted(

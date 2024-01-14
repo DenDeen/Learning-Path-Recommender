@@ -13,7 +13,7 @@ from app.utils import matching as matching_utils
 
 
 model_path = "https://huggingface.co/TheBloke/dolphin-2.6-mistral-7B-dpo-laser-GGUF/resolve/main/dolphin-2.6-mistral-7b-dpo-laser.Q3_K_S.gguf"
-filename = "input/dolphin-2.6-mistral-7b-dpo-laser.Q3_K_S.gguf"
+filename = "input/models/dolphin-2.6-mistral-7b-dpo-laser.Q3_K_S.gguf"
 global current_model
 global embedder
 
@@ -52,7 +52,7 @@ def process_input():
 
     # Embed the input and find the best matches
     embedded_output = model_utils.embed_specific_query(user_input, filename)
-    best_matches = matching_utils.find_best_matches(embedded_output, user_input, 9)
+    best_matches = matching_utils.find_best_matches(embedded_output, user_input, 6)
 
     # Convert the best matches to JSON objects and Store the results in the session
     session["courses"] = matching_utils.convert_df_to_json(best_matches)

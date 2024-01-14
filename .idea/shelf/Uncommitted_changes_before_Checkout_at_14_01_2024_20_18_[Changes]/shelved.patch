@@ -1,0 +1,21 @@
+Index: app/routes.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import (\r\n    render_template,\r\n    request,\r\n    stream_with_context,\r\n    Response,\r\n    send_file,\r\n    session,\r\n    jsonify,\r\n)\r\nfrom app import app\r\nfrom app.utils import models as model_utils\r\nfrom app.utils import matching as matching_utils\r\n\r\n\r\nmodel_path = \"https://huggingface.co/TheBloke/dolphin-2.6-mistral-7B-dpo-laser-GGUF/resolve/main/dolphin-2.6-mistral-7b-dpo-laser.Q3_K_S.gguf\"\r\nfilename = \"input/dolphin-2.6-mistral-7b-dpo-laser.Q3_K_S.gguf\"\r\nglobal current_model\r\nglobal embedder\r\n\r\n\r\ndef load_model():\r\n    # Unload the current model if it exists\r\n    global current_model\r\n\r\n    current_model = model_utils.get_model(model_path, filename)\r\n\r\n    return current_model\r\n\r\n\r\n@app.route(\"/\")\r\ndef index_page():\r\n    return render_template(\"index.html\")\r\n\r\n\r\n@app.route(\"/input_page\")\r\ndef input_page():\r\n    return render_template(\"input.html\")\r\n\r\n\r\n@app.route(\"/loading_page\", methods=[\"POST\"])\r\ndef loading_page():\r\n    # Save the user input in the session\r\n    session[\"user_input\"] = request.form.get(\"input_text\")\r\n    return render_template(\"loading.html\")\r\n\r\n\r\n@app.route(\"/process_input\", methods=[\"POST\"])\r\ndef process_input():\r\n    load_model()\r\n\r\n    user_input = session.get(\"user_input\", \"\")\r\n\r\n    # Embed the input and find the best matches\r\n    embedded_output = model_utils.embed_specific_query(user_input, filename)\r\n    best_matches = matching_utils.find_best_matches(embedded_output, user_input, 9)\r\n\r\n    # Convert the best matches to JSON objects and Store the results in the session\r\n    session[\"courses\"] = matching_utils.convert_df_to_json(best_matches)\r\n\r\n    # Generate similarity matrix and embedding comparison\r\n    matching_utils.generate_similarity_matrix()\r\n    matching_utils.generate_embedding_similarity(embedded_output)\r\n\r\n    return jsonify({\"success\": True, \"courses\": session[\"courses\"]})\r\n\r\n\r\n@app.route(\"/output_page\", methods=[\"GET\"])\r\ndef output_page():\r\n    # Get the predicted courses from the session\r\n    predicted_courses = session.get(\"courses\", [])\r\n    return render_template(\r\n        \"output.html\", courses=predicted_courses, user_input=session.get(\"user_input\", \"\")\r\n    )\r\n\r\n\r\n@app.route(\"/output\")\r\ndef output():\r\n    return render_template(\"output.html\")\r\n\r\n\r\n@app.route(\"/survey\")\r\ndef survey():\r\n    return render_template(\"survey.html\")\r\n\r\n\r\n@app.route(\"/download\")\r\ndef download_file():\r\n    # Path to the file you want to serve\r\n    file_path = \"static/resources/informatiebrief.pdf\"\r\n    return send_file(file_path, as_attachment=True)\r\n\r\n\r\n@app.route(\"/chat\", methods=[\"POST\"])\r\ndef chat():\r\n    user_input = request.json.get(\"message\")\r\n    processed_input = model_utils.generate_chat_prompt(user_input)\r\n    streamer = model_utils.get_llm_generator(processed_input, current_model)\r\n\r\n    buffer = []\r\n    buffer_size = 3\r\n\r\n    def generate():\r\n        for word in streamer:\r\n            buffer.append(word[\"choices\"][0][\"text\"])\r\n            if len(buffer) >= buffer_size:\r\n                yield \"\".join(buffer)\r\n                buffer.clear()\r\n        if buffer:\r\n            yield \" \".join(buffer)\r\n\r\n    return Response(stream_with_context(generate()))\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/routes.py b/app/routes.py
+--- a/app/routes.py	(revision 7155e89e97d4ca07705790e175a3987c249a9533)
++++ b/app/routes.py	(date 1705259733292)
+@@ -58,8 +58,8 @@
+     session["courses"] = matching_utils.convert_df_to_json(best_matches)
+ 
+     # Generate similarity matrix and embedding comparison
+-    matching_utils.generate_similarity_matrix()
+-    matching_utils.generate_embedding_similarity(embedded_output)
++    # matching_utils.generate_similarity_matrix()
++    # matching_utils.generate_embedding_similarity(embedded_output)
+ 
+     return jsonify({"success": True, "courses": session["courses"]})
+ 
