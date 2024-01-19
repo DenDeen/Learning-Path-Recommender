@@ -1,0 +1,9 @@
+Flask
+llama-cpp-python
+sentence-transformers
+langchain
+numpy
+pandas
+nltk
+matplotlib 
+seaborn

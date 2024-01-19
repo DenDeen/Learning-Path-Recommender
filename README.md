@@ -1,41 +1,20 @@
-#Learning path recommender
-Welcome to the Application Name – a course recommendation system powered by a sophisticated AI to enhance your learning journey.
+# Learning Path Recommender
 
-##Prerequisites
-Before you begin, ensure you meet the following requirements:
+This repository contains the code for the course recommendation system powered by a large language model (LLM). The system utilizes a chatbot interface to provide users with personalized course recommendations along with clear, understandable explanations.
 
-##Minimum System Requirements:
-At least 16 GB of RAM is required for the chatbot functionality to work effectively.
-Installation
-To set up the environment and install the required dependencies, follow these steps:
+## System Requirements
+Before proceeding with the installation, please ensure that your system meets the following requirements:
+- A minimum of 16 GB of RAM is required for the chatbot functionality to work efficiently.
 
-##Clone the Repository:
+## Installation
 
-sh
-Copy code
-git clone https://github.com/your-repository/application-name.git
-cd application-name
-Create a Conda Environment:
-Assuming you have Anaconda installed, create a new environment:
+### Setting Up the Conda Environment
 
-sh
-Copy code
-conda create --name your_env_name python=3.8
-Activate the environment:
+To run the application, you will need to set up a Conda environment. If you do not have Conda installed, please follow the instructions on the [Anaconda website](https://docs.anaconda.com/anaconda/install/).
 
-sh
-Copy code
-conda activate your_env_name
-Install Requirements:
-Install the required packages using the requirements.txt file:
+Once you have Conda installed, you can set up your environment using the `requirements.txt` file included in this repository.
 
-sh
-Copy code
-conda install --file requirements.txt
-Usage
-After installation, you can run the application using the following command:
+Run the following command to create a new Conda environment with the dependencies specified in `requirements.txt`:
 
-sh
-Copy code
-python app.py
-Navigate to http://localhost:5000 in your web browser to access the application.
+```bash
+conda create --name myenv --file requirements.txt
